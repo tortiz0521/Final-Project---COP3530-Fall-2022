@@ -81,9 +81,14 @@ int main() {
 		cout << it.first << ' ' << it.second << endl;
 	}
 	MergeSort(v, 0, n - 1);
-	cout << endl << "After sorting: " << endl;
+	cout << endl << "Ascending Order: " << endl;
 	for (auto& it : v)
 	{
 		cout << it.first << ' ' << it.second << endl;
+	}
+	cout << endl << "Descending Order: " << endl;
+	for (int i = n - 1; i >= 0; i--)
+	{
+		cout << v[i].first << ' ' << v[i].second << endl;
 	}
 }
