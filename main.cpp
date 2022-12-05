@@ -16,8 +16,8 @@ void GetDataFromCSV(string filepath, map<string, CSVData> &library ) {
 
 		while (getline(inFile, lineFromFile)) {
 			istringstream stream(lineFromFile);
-    	string  bookId, title,author="";
-    	string rating, pages,numRatings, likedPercent,bbeScore,bbeVotes,price="";
+    			string  bookId, title,author="";
+    			string rating, pages,numRatings, likedPercent,bbeScore,bbeVotes,price="";
 			
 			getline(stream, bookId, ',');
 			getline(stream, title, ',');
@@ -30,10 +30,10 @@ void GetDataFromCSV(string filepath, map<string, CSVData> &library ) {
 			getline(stream, bbeVotes, ',');
 			getline(stream, price, ',');
 			CSVData data;
-			 data.bookId = bookId;
-			 data.title = title;
-			 data.author = author;
-			 data.rating = stod(rating);
+			data.bookId = bookId;
+			data.title = title;
+			data.author = author;
+			data.rating = stod(rating);
 			data.pages = stoi(pages);
 			data.numRatings = stoi(numRatings);
 			data.likedPercent = stoi(likedPercent);
@@ -42,13 +42,12 @@ void GetDataFromCSV(string filepath, map<string, CSVData> &library ) {
 			data.price = stod(price);
 			library[title] = data;
 		}
-
 	}
 }
+
 int main()
 {
 	map<string, CSVData> library;
 	GetDataFromCSV("FinalCleanedLibrary.csv",library);
-	cout << "done";
-	
+	cout << "done";	
 }
