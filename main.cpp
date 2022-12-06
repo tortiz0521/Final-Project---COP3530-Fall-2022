@@ -5,6 +5,7 @@
 #include <sstream>
 #include <fstream>
 #include "helper.h"
+#include <utility>
 #include<vector>
 using namespace std;
 
@@ -46,24 +47,26 @@ void GetDataFromCSV(string filepath, map<string, CSVData> &library ) {
 
 	}
 }
-vector<pair<string, double>> createListDouble(vector<pair<string, double>> &list, string value,map<string, CSVData> &library ){
-	
-	for (auto it = library.begin(); it != library.end(); it++)
-{	if (value == "rating")
-     list.push_back(std::make_pair(it->first, it->second.rating));    
+vector<pair<string, double>> createListDouble(vector<pair<string, double>> &list, string value,const map<string, CSVData> &library ){
+	for (const auto &p : library)
+{
+	if (value == "rating")
+    list.push_back(std::make_pair(p.first, p.second.rating));    
 	else if (value == "price")
-	list.push_back(std::make_pair(it->first, it->second.price));   
+	list.push_back(std::make_pair(p.first, p.second.price));   
 }
 	return list;
 
 }
 vector<pair<string, int>> createListInt(vector<pair<string, int>> &list, string value,map<string, CSVData> &library ){
-	
 	for (auto it = library.begin(); it != library.end(); it++)
-{	if (value == "pages")
-    list.push_back(std::make_pair(it->first, it->second.pages));    
+{	
+	if (value == "pages"){
+	list.push_back(std::make_pair(it->first, it->second.pages));  
+	cout<< "adding"<<endl;    
+	}
 	else if (value == "likedPercent")
-	list.push_back(std::make_pair(it->first, it->second.likedPercent));   
+	list.push_back(std::make_pair(it->first, it->second.likedPercent)); 
 }
 	return list;
 
@@ -91,23 +94,28 @@ int main()
 	if(selection ==1 ){
 		cout << "How many results would you like to see?"<<endl;
 		cin >> range;
-		vector<pair<string, int>> listPages = createListInt(listPages,"pages",library);
+		vector<pair<string, int>> listPages;
+		listPages = createListInt(listPages,"pages",library);
+	
 	}
 	else if (selection ==2){
 		cout << "How many results would you like to see?"<<endl;
 		cin >> range;
-		vector<pair<string, double>> listRating = createListDouble(listRating,"rating",library);
+		vector<pair<string, double>> listRating;
+		listRating= createListDouble(listRating,"rating",library);
 		
 	}
 	else if (selection ==3){
 		cout << "How many results would you like to see?"<<endl;
 		cin >> range;
-		vector<pair<string, double>> listPrice = createListDouble(listPrice,"price",library);
+		vector<pair<string, double>> listPrice;
+		listPrice = createListDouble(listPrice,"price",library);
 	}
 	else if (selection ==4){
 		cout << "How many results would you like to see?"<<endl;
 		cin >> range;
-		vector<pair<string, int>> listlikedPercent = createListInt(listlikedPercent,"likedPercent",library);
+		vector<pair<string, int>> listlikedPercent;
+		listlikedPercent = createListInt(listlikedPercent,"likedPercent",library);
 	}
 	else if (selection ==5){
 		break;
