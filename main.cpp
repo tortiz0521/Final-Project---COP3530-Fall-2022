@@ -7,6 +7,7 @@
 #include <utility>
 #include<vector>
 #include <chrono>
+#include <string>
 #include "helper.h"
 #include "mergeSort.h"
 
@@ -108,7 +109,7 @@ int main()
 	GetDataFromCSV("FinalCleanedLibrary.csv", library);
 	int selection = 0;
 	int range;
-	string book;
+	
 
 	while (true) {
 
@@ -120,7 +121,8 @@ int main()
 		cout << "5. Find full book information" << endl;
 		cout << "6. Exit Library" << endl;
 		cin >> selection;
-
+		cin.clear();
+		cin.sync();
 		if (selection == 1) {
 			cout << "How many results would you like to see?" << endl;
 			cin >> range;
@@ -147,9 +149,11 @@ int main()
 		}
 		else if (selection == 5){
 			cout<< "What is the name of the book you are searching for?"<<endl;
-			cin >> book;
+			string book;
+			getline(cin, book);
 			if (library[book].rating == 0){
 			cout<< "This is not a valid book in our Library, please start over." <<endl;
+			cout<<endl;
 			continue;
 			}
 			cout << "Author: "<<library[book].author<< ", Rating: " << library[book].rating << ", Number of Pages: "<<
