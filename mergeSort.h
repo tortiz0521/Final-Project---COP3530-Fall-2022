@@ -1,91 +1,178 @@
-#include<iostream>
+#include <iostream>
+#include <map>
+#include <ctime>
+#include <iomanip>
+#include <sstream>
+#include <fstream>
+#include <utility>
 #include<vector>
+#include <chrono>
+#include "helper.h"
+#include "mergeSort.h"
 
 using namespace std;
 
+void GetDataFromCSV(string filepath, map<string, CSVData>& library) {
+	ifstream inFile(filepath);
 
-// the interval from [start to mid] and [mid+1 to end] in v are sorted function will merge both of these intervals
-// such the interval from [start to end] in v becomes sorted
-void merge_double(vector<pair<string, double>>& v, int start, int mid, int end) {
+	if (inFile.is_open()) {
+		string lineFromFile;
+		getline(inFile, lineFromFile);
 
-	// temp is used to temporary store the vector obtained by merging
-	// elements from [start to mid] and [mid+1 to end] in v
-	vector<pair<string, double>> temp;
-	int i, j;
-	i = start;
-	j = mid + 1;
-	while (i <= mid && j <= end) {
-		if (v[i].second <= v[j].second) {
-			temp.push_back(v[i]);
-			i++;
+		while (getline(inFile, lineFromFile)) {
+			istringstream stream(lineFromFile);
+			string  bookId, title, author = "";
+			string rating, pages, numRatings, likedPercent, bbeScore, bbeVotes, price = "";
+
+			getline(stream, bookId, ',');
+			getline(stream, title, ',');
+			getline(stream, author, ',');
+			getline(stream, rating, ',');
+			getline(stream, pages, ',');
+			getline(stream, numRatings, ',');
+			getline(stream, likedPercent, ',');
+			getline(stream, bbeScore, ',');
+			getline(stream, bbeVotes, ',');
+			getline(stream, price, ',');
+			CSVData data;
+			data.bookId = bookId;
+			data.title = title;
+			data.author = author;
+			data.rating = stod(rating);
+			data.pages = stoi(pages);
+			data.numRatings = stoi(numRatings);
+			data.likedPercent = stoi(likedPercent);
+			data.bbeScore = stoi(bbeScore);
+			data.bbeVotes = stoi(bbeVotes);
+			data.price = stod(price);
+			library[title] = data;
 		}
-		else {
-			temp.push_back(v[j]);
-			j++;
-		}
-	}
-	while (i <= mid) {
-		temp.push_back(v[i]);
-		i++;
-	}
 
-	while (j <= end) {
-		temp.push_back(v[j]);
-		j++;
 	}
-
-	for (int i = start; i <= end; i++)
-		v[i] = temp[i - start];
 }
-// the MergeSort function Sorts the array in the range [start to end] in v using merge sort algorithm
-void mergeSort_double(vector<pair<string, double>>& v, int start, int end)
+vector<pair<string, double>> createListDouble(vector<pair<string, double>>& list, string value, const map<string, CSVData>& library) {
+	for (const auto& p : library)
+	{
+		if (value == "rating")
+			list.push_back(std::make_pair(p.first, p.second.rating));
+		else if (value == "price")
+			list.push_back(std::make_pair(p.first, p.second.price));
+	}
+	return list;
+
+}
+vector<pair<string, int>> createListInt(vector<pair<string, int>>& list, string value, map<string, CSVData>& library) {
+	for (auto it = library.begin(); it != library.end(); it++)
+	{
+		if (value == "pages") {
+			list.push_back(std::make_pair(it->first, it->second.pages));
+		}
+		else if (value == "likedPercent")
+			list.push_back(std::make_pair(it->first, it->second.likedPercent));
+	}
+	return list;
+
+}
+int main()
 {
-	if (start < end) {
-		int mid = (start + end) / 2;
-		mergeSort_double(v, start, mid);
-		mergeSort_double(v, mid + 1, end);
-		merge_double(v, start, mid, end);
-	}
-}
+	map<string, CSVData> library;
 
-void merge_int(vector<pair<string, int>>& v, int start, int mid, int end) {
+	GetDataFromCSV("FinalCleanedLibrary.csv", library);
+	int selection = 0;
+	int range;
 
-	// temp is used to temporary store the vector obtained by merging
-	// elements from [start to mid] and [mid+1 to end] in v
-	vector<pair<string, int>> temp;
-	int i, j;
-	i = start;
-	j = mid + 1;
-	while (i <= mid && j <= end) {
-		if (v[i].second <= v[j].second) {
-			temp.push_back(v[i]);
-			i++;
+	int sizeRating;
+	int sizePrice;
+	int sizePage;
+	int sizePercent;
+
+	while (true) {
+
+		cout << "How would you like to find your book?" << endl;
+		cout << "1. Sort by page number" << endl;
+		cout << "2. Sort by rating" << endl;
+		cout << "3. Sort by price" << endl;
+		cout << "4. Sort by liked percentage" << endl;
+		cout << "5. Exit Library" << endl;
+		cin >> selection;
+
+		if (selection == 1) {
+			cout << "How many results would you like to see?" << endl;
+			cin >> range;
+			vector<pair<string, int>> listPages;
+			listPages = createListInt(listPages, "pages", library);
+			sizePage = listPages.size();
+			auto start1 = chrono::high_resolution_clock::now(); // Count to start the time on here
+			mergeSort_int(listPages, 0, sizePage - 1);
+			auto end1 = chrono::high_resolution_clock::now(); // stop the time on here
+			auto time1 = chrono::duration_cast<chrono::microseconds>(end1 - start1).count(); // Caculate the time 
+			cout << endl << "Descending Order: " << endl;
+			for (int i = sizePage - 1; i >= sizePage - range; i--) {
+				cout << listPages[i].first << ' ' << listPages[i].second << endl;
+			}
+			cout << endl;
+			cout << "Time taken by Merge Sort: " << time1 << " microseconds." << endl; // print the time to execute
 		}
-		else {
-			temp.push_back(v[j]);
-			j++;
+		else if (selection == 2) {
+			cout << "How many results would you like to see?" << endl;
+			cin >> range;
+			vector<pair<string, double>> listRating;
+			listRating = createListDouble(listRating, "rating", library);
+			sizeRating = listRating.size();
+			auto start1 = chrono::high_resolution_clock::now(); // Count to start the time on here
+			mergeSort_double(listRating, 0, sizeRating - 1);
+			auto end1 = chrono::high_resolution_clock::now(); // stop the time on here
+			auto time1 = chrono::duration_cast<chrono::microseconds>(end1 - start1).count(); // Caculate the time 
+			cout << endl << "Descending Order: " << endl;
+			for (int i = sizeRating - 1; i >= sizeRating - range; i--) {
+				cout << listRating[i].first << ' ' << listRating[i].second << endl;
+			}
+			cout << endl;
+			cout << "Time taken by Merge Sort: " << time1 << " microseconds." << endl; // print the time to execute
 		}
-	}
-	while (i <= mid) {
-		temp.push_back(v[i]);
-		i++;
-	}
+		else if (selection == 3) {	
+			cout << "How many results would you like to see?" << endl;
+			cin >> range;	
+			vector<pair<string, double>> listPrice;
+			listPrice = createListDouble(listPrice, "price", library);
+			sizePrice = listPrice.size();
+			auto start1 = chrono::high_resolution_clock::now(); // Count to start the time on here
+			mergeSort_double(listPrice, 0, sizePrice - 1);
+			auto end1 = chrono::high_resolution_clock::now(); // stop the time on here
+			auto time1 = chrono::duration_cast<chrono::microseconds>(end1 - start1).count(); // Caculate the time 
+			cout << endl << "Descending Order: " << endl;
+			for (int i = sizePrice - 1; i >= sizePrice - range; i--) {
+				cout << listPrice[i].first << ' ' << listPrice[i].second << endl;
+			}
+			cout << endl;
+			cout << "Time taken by Merge Sort: " << time1 << " microseconds." << endl; // print the time to execute
+		}
+		else if (selection == 4) {
+			cout << "How many results would you like to see?" << endl;
+			cin >> range;
+			vector<pair<string, int>> listlikedPercent;
+			listlikedPercent = createListInt(listlikedPercent, "likedPercent", library);
+			sizePercent = listlikedPercent.size();
+			auto start1 = chrono::high_resolution_clock::now(); // Count to start the time on here
+			mergeSort_int(listlikedPercent, 0, sizePercent - 1);
+			auto end1 = chrono::high_resolution_clock::now(); // stop the time on here
+			auto time1 = chrono::duration_cast<chrono::microseconds>(end1 - start1).count(); // Caculate the time 
+			cout << endl << "Descending Order: " << endl;
+			for (int i = sizePercent - 1; i >= sizePercent - range; i--) {
+				cout << listlikedPercent[i].first << ' ' << listlikedPercent[i].second << endl;
+			}
+			cout << endl;
+			cout << "Time taken by Merge Sort: " << time1 << " microseconds." << endl; // print the time to execute
 
-	while (j <= end) {
-		temp.push_back(v[j]);
-		j++;
-	}
 
-	for (int i = start; i <= end; i++)
-		v[i] = temp[i - start];
-}
+		}
+		else if (selection == 5) {
+			break;
+		}
+		else
+			cout << "Please make a valid selection" << endl;
+			cout <<endl;
 
-void mergeSort_int(vector<pair<string, int>>& v, int start, int end)
-{
-	if (start < end) {
-		int mid = (start + end) / 2;
-		mergeSort_int(v, start, mid);
-		mergeSort_int(v, mid + 1, end);
-		merge_int(v, start, mid, end);
 	}
+	cout << "Thank you for stopping by, I hope you enjoyed our slection and found a good book!";
 }
