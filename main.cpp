@@ -14,14 +14,14 @@
 
 using namespace std;
 
-void GetDataFromCSV(string filepath, map<string, CSVData>& library) {
+void GetDataFromCSV(string filepath, map<string, CSVData>& library) {//reads in the file as a csv
 	ifstream inFile(filepath);
 
-	if (inFile.is_open()) {
+	if (inFile.is_open()) {//while the file is open read through the lines
 		string lineFromFile;
 		getline(inFile, lineFromFile);
 
-		while (getline(inFile, lineFromFile)) {
+		while (getline(inFile, lineFromFile)) {//while on a certain line, go through the commas and get specific attributes
 			istringstream stream(lineFromFile);
 			string  bookId, title, author = "";
 			string rating, pages, numRatings, likedPercent, bbeScore, bbeVotes, price = "";
@@ -47,35 +47,39 @@ void GetDataFromCSV(string filepath, map<string, CSVData>& library) {
 			data.bbeScore = stoi(bbeScore);
 			data.bbeVotes = stoi(bbeVotes);
 			data.price = stod(price);
-			library[title] = data;
+			library[title] = data;//add the data of each book to the overall library in the form of a map, furthermore since it is a map its alphabetical by default
 		}
 
 	}
 }
 vector<pair<string, double>> createListDouble(vector<pair<string, double>>& list, string value, const map<string, CSVData>& library) {
+	//cerates a vector pair with the title as the string and the data type to be sorted. This one focuses on the doubles rating and price
 	for (const auto& p : library)
 	{
-		if (value == "rating")
+		if (value == "rating")//check if data to be added is rating
 			list.push_back(std::make_pair(p.first, p.second.rating));
-		else if (value == "price")
+		else if (value == "price")//check if data to be added is price
 			list.push_back(std::make_pair(p.first, p.second.price));
 	}
 	return list;
 
 }
 vector<pair<string, int>> createListInt(vector<pair<string, int>>& list, string value, map<string, CSVData>& library) {
-	for (auto it = library.begin(); it != library.end(); it++)
+	//cerates a vector pair with the title as the string and the data type to be sorted. This one focuses on the ints pages and liked percent
+	for (auto it = library.begin(); it != library.end(); it++)//different type of iterator for practice in both styles
 	{
-		if (value == "pages") {
+		if (value == "pages") {//check if data to be added is pages
 			list.push_back(std::make_pair(it->first, it->second.pages));
 		}
-		else if (value == "likedPercent")
+		else if (value == "likedPercent")//check if data to be added is likedPercent
 			list.push_back(std::make_pair(it->first, it->second.likedPercent));
 	}
 	return list;
 
 }
 void intSelect(int range, vector<pair<string, int>> list, map<string, CSVData>& library, string type) {
+	//creates and sorts the given vector pair by specified data types and compares the two types of sorts: Raadix and Merge
+	//Focuses on the int values Page num and Liked percentage
 	list = createListInt(list, type, library);
 	int size = list.size();
 	vector<pair<string, int>> forMerge = list; // vector that use on merge sort
@@ -116,6 +120,8 @@ void intSelect(int range, vector<pair<string, int>> list, map<string, CSVData>& 
 	cout << endl;
 }
 void dblSelect(int range, vector<pair<string, double>> list, map<string, CSVData>& library, string type) {
+	//creates and sorts the given vector pair by specified data types and compares the two types of sorts: Raadix and Merge
+	//Focuses on the double values rating and price
 	list = createListDouble(list, type, library);
 	int size = list.size();
 	vector<pair<string, double>> forMerge = list; // vector that use on merge sort
@@ -157,15 +163,15 @@ void dblSelect(int range, vector<pair<string, double>> list, map<string, CSVData
 }
 int main()
 {
-	map<string, CSVData> library;
+	map<string, CSVData> library;//create the library from a map of the data object
 
-	GetDataFromCSV("FinalCleanedLibrary.csv", library);
+	GetDataFromCSV("FinalCleanedLibrary.csv", library);//gets the data from the CSV
 	int selection = 0;
 	int range;
 
 
 	while (true) {
-
+		//Menu options on loop until exit
 		cout << "How would you like to find your book?" << endl;
 		cout << "1. Sort by page number" << endl;
 		cout << "2. Sort by rating" << endl;
@@ -176,35 +182,43 @@ int main()
 		cin >> selection;
 		cin.clear();
 		cin.sync();
-		if (selection == 1) {
+		if (selection == 1) {//Sort by Page
 			cout << "How many results would you like to see?" << endl;
-			cin >> range;
+			cin >> range; //takes in the amount of results you wish to see
 			vector<pair<string, int>> listPages;
 			intSelect(range, listPages, library, "pages");
+			//passes in how many results you want, vector pair, the Library map, and data type you want to find
+			//and prints the sorted values with time taken for each sort
 		}
-		else if (selection == 2) {
+		else if (selection == 2) {//Sort by Rating
 			cout << "How many results would you like to see?" << endl;
-			cin >> range;
+			cin >> range;//takes in the amount of results you wish to see
 			vector<pair<string, double>> listRating;
 			dblSelect(range, listRating, library, "rating");
+			//passes in how many results you want, vector pair, the Library map, and data type you want to find
+			//and prints the sorted values with time taken for each sort
 		}
-		else if (selection == 3) {
+		else if (selection == 3) {//Sort by Price
 			cout << "How many results would you like to see?" << endl;
-			cin >> range;
+			cin >> range;//takes in the amount of results you wish to see
 			vector<pair<string, double>> listPrice;
 			dblSelect(range, listPrice, library, "price");
+			//passes in how many results you want, vector pair, the Library map, and data type you want to find
+			//and prints the sorted values with time taken for each sort
 		}
-		else if (selection == 4) {
+		else if (selection == 4) {//Sort by liked percentage
 			cout << "How many results would you like to see?" << endl;
-			cin >> range;
+			cin >> range;//takes in the amount of results you wish to see
 			vector<pair<string, int>> listlikedPercent;
 			intSelect(range, listlikedPercent, library, "likedPercent");
+			//passes in how many results you want, vector pair, the Library map, and data type you want to find
+			//and prints the sorted values with time taken for each sort
 		}
-		else if (selection == 5) {
+		else if (selection == 5) {//Find a specific book in the library and all information with it
 			cout << "What is the name of the book you are searching for?" << endl;
 			string book;
-			getline(cin, book);
-			if (library[book].rating == 0) {
+			getline(cin, book);//looks for the book you want
+			if (library[book].rating == 0) {//makes sure book exists
 				cout << "This is not a valid book in our Library, please start over." << endl;
 				cout << endl;
 				continue;
@@ -214,7 +228,7 @@ int main()
 				library[book].likedPercent << ", Price of Book: " << library[book].price << ", \nBest Books Ever Score: " <<
 				library[book].bbeScore << ", Best Books Ever Votes: " << library[book].bbeVotes << endl;
 		}
-		else if (selection == 6) {
+		else if (selection == 6) {//exit the menu/program
 			break;
 		}
 		else
