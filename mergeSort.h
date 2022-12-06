@@ -38,12 +38,12 @@ void merge_double(vector<pair<string, double>>& v, int start, int mid, int end) 
 		v[i] = temp[i - start];
 }
 // the MergeSort function Sorts the array in the range [start to end] in v using merge sort algorithm
-void MergeSort_double(vector<pair<string, double>>& v, int start, int end)
+void mergeSort_double(vector<pair<string, double>>& v, int start, int end)
 {
 	if (start < end) {
 		int mid = (start + end) / 2;
-		MergeSort_double(v, start, mid);
-		MergeSort_double(v, mid + 1, end);
+		mergeSort_double(v, start, mid);
+		mergeSort_double(v, mid + 1, end);
 		merge_double(v, start, mid, end);
 	}
 }
@@ -80,12 +80,12 @@ void merge_int(vector<pair<string, int>>& v, int start, int mid, int end) {
 		v[i] = temp[i - start];
 }
 
-void MergeSort_int(vector<pair<string, int>>& v, int start, int end)
+void mergeSort_int(vector<pair<string, int>>& v, int start, int end)
 {
 	if (start < end) {
 		int mid = (start + end) / 2;
-		MergeSort_int(v, start, mid);
-		MergeSort_int(v, mid + 1, end);
+		mergeSort_int(v, start, mid);
+		mergeSort_int(v, mid + 1, end);
 		merge_int(v, start, mid, end);
 	}
 }
