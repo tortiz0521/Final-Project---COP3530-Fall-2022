@@ -97,7 +97,7 @@ void dblSelect (int range, vector<pair<string, double>> list, map<string, CSVDat
 			auto time1 = chrono::duration_cast<chrono::microseconds>(end1 - start1).count(); // Caculate the time 
 			cout << endl << "Descending Order: " << endl;
 			for (int i = size - 1; i >= size - range; i--) {
-				cout << list[i].first << ' ' << list[i].second << endl;
+				cout << list[i].first << ' ' << fixed << showpoint << setprecision(2) << list[i].second << endl;
 			}
 			cout << endl;
 			cout << "Time taken by Merge Sort: " << time1 << " microseconds." << endl; // print the time to execute
