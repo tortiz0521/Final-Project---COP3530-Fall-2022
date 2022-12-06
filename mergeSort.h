@@ -4,42 +4,36 @@
 using namespace std;
 
 
-// the interval from [start to mid] and [mid+1 to end] in v are sorted function will merge both of these intervals
-// such the interval from [start to end] in v becomes sorted
-void merge_double(vector<pair<string, double>>& v, int start, int mid, int end) {
 
-	// temp is used to temporary store the vector obtained by merging
-	// elements from [start to mid] and [mid+1 to end] in v
-	vector<pair<string, double>> temp;
-	int i, j;
-	i = start;
-	j = mid + 1;
+void merge_double(vector<pair<string, double>>& v, int start, int mid, int end) { // merge the vector of pair, stirng and double (rate, price)
+	vector<pair<string, double>> temp_vec; // vector that have the data temporary
+	int i = start;
+	int j = mid + 1;
 	while (i <= mid && j <= end) {
 		if (v[i].second <= v[j].second) {
-			temp.push_back(v[i]);
+			temp_vec.push_back(v[i]);
 			i++;
 		}
 		else {
-			temp.push_back(v[j]);
+			temp_vec.push_back(v[j]);
 			j++;
 		}
 	}
 	while (i <= mid) {
-		temp.push_back(v[i]);
+		temp_vec.push_back(v[i]);
 		i++;
 	}
 
 	while (j <= end) {
-		temp.push_back(v[j]);
+		temp_vec.push_back(v[j]);
 		j++;
 	}
 
 	for (int i = start; i <= end; i++)
-		v[i] = temp[i - start];
+		v[i] = temp_vec[i - start];
 }
-// the MergeSort function Sorts the array in the range [start to end] in v using merge sort algorithm
-void mergeSort_double(vector<pair<string, double>>& v, int start, int end)
-{
+
+void mergeSort_double(vector<pair<string, double>>& v, int start, int end) { // Merge sort for vecotr of pair, string and double (rate, price)
 	if (start < end) {
 		int mid = (start + end) / 2;
 		mergeSort_double(v, start, mid);
@@ -48,40 +42,35 @@ void mergeSort_double(vector<pair<string, double>>& v, int start, int end)
 	}
 }
 
-void merge_int(vector<pair<string, int>>& v, int start, int mid, int end) {
-
-	// temp is used to temporary store the vector obtained by merging
-	// elements from [start to mid] and [mid+1 to end] in v
-	vector<pair<string, int>> temp;
-	int i, j;
-	i = start;
-	j = mid + 1;
+void merge_int(vector<pair<string, int>>& v, int start, int mid, int end) { // merge the vector of pair, stirng and int (pages, liked percent)
+	vector<pair<string, int>> temp_vec; // vector that have the data temporary
+	int i = start;
+	int j = mid + 1;
 	while (i <= mid && j <= end) {
 		if (v[i].second <= v[j].second) {
-			temp.push_back(v[i]);
+			temp_vec.push_back(v[i]);
 			i++;
 		}
 		else {
-			temp.push_back(v[j]);
+			temp_vec.push_back(v[j]);
 			j++;
 		}
 	}
 	while (i <= mid) {
-		temp.push_back(v[i]);
+		temp_vec.push_back(v[i]);
 		i++;
 	}
 
 	while (j <= end) {
-		temp.push_back(v[j]);
+		temp_vec.push_back(v[j]);
 		j++;
 	}
 
 	for (int i = start; i <= end; i++)
-		v[i] = temp[i - start];
+		v[i] = temp_vec[i - start];
 }
 
-void mergeSort_int(vector<pair<string, int>>& v, int start, int end)
-{
+void mergeSort_int(vector<pair<string, int>>& v, int start, int end) { // Merge sort for vecotr of pair, string and int (page, liked percent)
 	if (start < end) {
 		int mid = (start + end) / 2;
 		mergeSort_int(v, start, mid);
