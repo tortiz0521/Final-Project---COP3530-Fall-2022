@@ -95,9 +95,9 @@ int main()
 		cout << "4. Sort by liked percentage" << endl;
 		cout << "5. Exit Library" << endl;
 		cin >> selection;
-		cout << "How many results would you like to see?" << endl;
-		cin >> range;
 		if (selection == 1) {
+			cout << "How many results would you like to see?" << endl;
+			cin >> range;
 			vector<pair<string, int>> listPages;
 			listPages = createListInt(listPages, "pages", library);
 			sizePage = listPages.size();
@@ -111,8 +111,11 @@ int main()
 			}
 			cout << endl;
 			cout << "Time taken by Merge Sort: " << time1 << " microseconds." << endl; // print the time to execute
+			cout << endl;
 		}
 		else if (selection == 2) {
+			cout << "How many results would you like to see?" << endl;
+			cin >> range;
 			vector<pair<string, double>> listRating;
 			listRating = createListDouble(listRating, "rating", library);
 			sizeRating = listRating.size();
@@ -122,12 +125,15 @@ int main()
 			auto time1 = chrono::duration_cast<chrono::microseconds>(end1 - start1).count(); // Caculate the time 
 			cout << endl << "Descending Order: " << endl;
 			for (int i = sizeRating - 1; i >= sizeRating - range; i--) {
-				cout << listRating[i].first << ' ' << listRating[i].second << endl;
+				cout << listRating[i].first << ' ' << fixed << showpoint << setprecision(2) << listRating[i].second << endl;
 			}
 			cout << endl;
 			cout << "Time taken by Merge Sort: " << time1 << " microseconds." << endl; // print the time to execute
+			cout << endl;
 		}
-		else if (selection == 3) {		
+		else if (selection == 3) {
+			cout << "How many results would you like to see?" << endl;
+			cin >> range;
 			vector<pair<string, double>> listPrice;
 			listPrice = createListDouble(listPrice, "price", library);
 			sizePrice = listPrice.size();
@@ -137,13 +143,15 @@ int main()
 			auto time1 = chrono::duration_cast<chrono::microseconds>(end1 - start1).count(); // Caculate the time 
 			cout << endl << "Descending Order: " << endl;
 			for (int i = sizePrice - 1; i >= sizePrice - range; i--) {
-				cout << listPrice[i].first << ' ' << listPrice[i].second << endl;
+				cout << listPrice[i].first << ' ' << fixed << showpoint << setprecision(2) << listPrice[i].second << endl;
 			}
 			cout << endl;
 			cout << "Time taken by Merge Sort: " << time1 << " microseconds." << endl; // print the time to execute
-
+			cout << endl;
 		}
 		else if (selection == 4) {
+			cout << "How many results would you like to see?" << endl;
+			cin >> range;
 			vector<pair<string, int>> listlikedPercent;
 			listlikedPercent = createListInt(listlikedPercent, "likedPercent", library);
 			sizePercent = listlikedPercent.size();
@@ -157,8 +165,7 @@ int main()
 			}
 			cout << endl;
 			cout << "Time taken by Merge Sort: " << time1 << " microseconds." << endl; // print the time to execute
-
-
+			cout << endl;
 		}
 		else if (selection == 5) {
 			break;
