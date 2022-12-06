@@ -156,7 +156,7 @@ int main()
 			cout<<endl;
 			continue;
 			}
-			cout << "Author: "<<library[book].author<< ", Rating: " << library[book].rating << ", Number of Pages: "<<
+			cout << "Author: "<<library[book].author<< ", Rating: " << library[book].rating << ", \nNumber of Pages: "<<
 			library[book].pages<<", Number of Ratings: "<<library[book].numRatings<< ", \nPercentage Liked: "<<
 			library[book].likedPercent<< ", Price of Book: "<< library[book].price<< ", \nBest Books Ever Score: "<<
 			library[book].bbeScore <<", Best Books Ever Votes: "<<library[book].bbeVotes <<endl;
