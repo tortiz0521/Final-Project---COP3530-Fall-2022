@@ -1,7 +1,6 @@
 #ifndef RadixSort_h
 #define RadixSort_h
 
-#include <iostream>
 #include <vector>
 #include <string>
 using namespace std;
@@ -46,7 +45,7 @@ void countingSort(vector<pair<string, int>>& data, int digit)
 	}
 }
 
-vector<pair<string, int>> dedecimal(vector<pair<string, double>> data)
+vector<pair<string, int>> dedecimal_double(vector<pair<string, double>> data)
 {
 	vector<pair<string, int>> d;
 	for (int i = 0; i < data.size(); i++) {
@@ -56,7 +55,7 @@ vector<pair<string, int>> dedecimal(vector<pair<string, double>> data)
 	return d;
 }
 
-vector<pair<string, double>> redecimal(vector<pair<string, int>> data)
+vector<pair<string, double>> redecimal_double(vector<pair<string, int>> data)
 {
 	vector<pair<string, double>> d;
 	for (int i = 0; i < data.size(); i++) {
@@ -66,27 +65,46 @@ vector<pair<string, double>> redecimal(vector<pair<string, int>> data)
 	return d;
 }
 
-void radixSort(vector<pair<string, double>>& data)
+void radixSort_double(vector<pair<string, double>>& data)
 {
-	vector<pair<string, int>> de = dedecimal(data);
+	vector<pair<string, int>> de = dedecimal_double(data);
 	int max = findMax(de);
 
 	for (int d = 1; max / d > 0; d *= 10) {
 		countingSort(de, d);
 	}
 
-	data = redecimal(de);
+	data = redecimal_double(de);
 }
 
-void radixSort(vector<pair<string, int>>& data)
+vector<pair<string, int>> dedecimal_int(vector<pair<string, int>> data)
 {
-	vector<pair<string, int>> de;
+	vector<pair<string, int>> d;
+	for (int i = 0; i < data.size(); i++) {
+		d.push_back(make_pair(data[i].first, data[i].second * 100));
+	}
+	return d;
+}
+
+vector<pair<string, int>> redecimal_int(vector<pair<string, int>> data)
+{
+	vector<pair<string, int>> d;
+	for (int i = 0; i < data.size(); i++) {
+		d.push_back(make_pair(data[i].first, (int)data[i].second / 100));
+	}
+
+	return d;
+}
+
+void radixSort_int(vector<pair<string, int>>& data)
+{
+	vector<pair<string, int>> de = dedecimal_int(data);
 	int max = findMax(de);
 
 	for (int d = 1; max / d > 0; d *= 10) {
 		countingSort(de, d);
 	}
 
+	data = redecimal_int(de);
 }
-
 #endif
