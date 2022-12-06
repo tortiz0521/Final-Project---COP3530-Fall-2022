@@ -78,33 +78,50 @@ vector<pair<string, int>> createListInt(vector<pair<string, int>>& list, string 
 void intSelect(int range, vector<pair<string, int>> list, map<string, CSVData>& library, string type) {
 	list = createListInt(list, type, library);
 	int size = list.size();
-	vector<pair<string, int>> forMerge = list;
-	vector<pair<string, int>> forRadix = list;
+	vector<pair<string, int>> forMerge = list; // vector that use on merge sort
+	vector<pair<string, int>> forRadix = list; // vector that use on radix sort
+	
 	// for caclulate the execute time for merge sort 
 	auto start1 = chrono::high_resolution_clock::now(); // Count to start the time on here
 	mergeSort_int(forMerge, 0, size - 1);
 	auto end1 = chrono::high_resolution_clock::now(); // stop the time on here
 	auto time1 = chrono::duration_cast<chrono::microseconds>(end1 - start1).count();
+	
 	// for calculate the execute time for radix sort
 	auto start2 = chrono::high_resolution_clock::now(); // Count to start the time on here
 	radixSort_int(forRadix);
 	auto end2 = chrono::high_resolution_clock::now(); // stop the time on here
 	auto time2 = chrono::duration_cast<chrono::microseconds>(end2 - start2).count();
-	cout << endl << "Descending Order: " << endl;
+	
+	// print the raking order by Merge Sort
+	cout << endl << "---------------------------" << endl;
+	cout << "Ranking order by Merge Sort" << endl;
+	cout << "---------------------------" << endl;
 	for (int i = size - 1; i >= size - range; i--) {
-		cout << forMerge[i].first << ' ' << forMerge[i].second << endl;
+		cout << forMerge[i].first << ": " << forMerge[i].second << endl;
 	}
 	cout << endl;
-	cout << "Time taken by Merge Sort: " << time1 << " microseconds." << endl; // print the time to execute
+	
+	// print the raking order by Radix Sort
+	cout << endl << "---------------------------" << endl;
+	cout << "Ranking order by Radix Sort" << endl;
+	cout << "---------------------------" << endl;
+	for (int i = size - 1; i >= size - range; i--) {
+		cout << forRadix[i].first << ": " << forRadix[i].second << endl;
+	}
 	cout << endl;
-	cout << "Time taken by Radix Sort: " << time2 << " microseconds." << endl; // print the time to execute
+	cout << "Time taken by Merge Sort: " << time1 << " microseconds." << endl; // print the time to execute merge Sort
+	cout << endl;
+	cout << "Time taken by Radix Sort: " << time2 << " microseconds." << endl; // print the time to execute Radix Sort
 	cout << endl;
 }
 void dblSelect(int range, vector<pair<string, double>> list, map<string, CSVData>& library, string type) {
 	list = createListDouble(list, type, library);
 	int size = list.size();
-	vector<pair<string, double>> forMerge = list;
-	vector<pair<string, double>> forRadix = list;
+	vector<pair<string, double>> forMerge = list; // vector that use on merge sort
+	vector<pair<string, double>> forRadix = list; // vector that use on radix sort
+
+    // for calculate the execute time for merge sort
 	auto start1 = chrono::high_resolution_clock::now(); // Count to start the time on here
 	mergeSort_double(forMerge, 0, size - 1);
 	auto end1 = chrono::high_resolution_clock::now(); // stop the time on here
@@ -115,14 +132,27 @@ void dblSelect(int range, vector<pair<string, double>> list, map<string, CSVData
 	radixSort_double(forRadix);
 	auto end2 = chrono::high_resolution_clock::now(); // stop the time on here
 	auto time2 = chrono::duration_cast<chrono::microseconds>(end2 - start2).count();
-	cout << endl << "Descending Order: " << endl;
+	
+	// print the raking order by Merge Sort
+	cout << endl << "-------------------------------"<< endl;
+	cout << "Ranking order by Merge Sort" << endl;
+	cout << "-------------------------------" << endl;
 	for (int i = size - 1; i >= size - range; i--) {
-		cout << forMerge[i].first << ' ' << fixed << showpoint << setprecision(2) << forMerge[i].second << endl;
+		cout << forMerge[i].first << ": " << fixed << showpoint << setprecision(2) << forMerge[i].second << endl;
 	}
 	cout << endl;
-	cout << "Time taken by Merge Sort: " << time1 << " microseconds." << endl; // print the time to execute
+
+	// print the raking order by Radix Sort
+	cout << endl << "---------------------------" << endl;
+	cout << "Ranking order by Radix Sort" << endl;
+	cout << "---------------------------" << endl;
+	for (int i = size - 1; i >= size - range; i--) {
+		cout << forRadix[i].first << ": " << fixed << showpoint << setprecision(2) << forRadix[i].second << endl;
+	}
 	cout << endl;
-	cout << "Time taken by Merge Sort: " << time2 << " microseconds." << endl; // print the time to execute
+	cout << "Time taken by Merge Sort: " << time1 << " microseconds." << endl; // print the time to execute merge sort
+	cout << endl;
+	cout << "Time taken by Radix Sort: " << time2 << " microseconds." << endl; // print the time to execute Radix Sort
 	cout << endl;
 }
 int main()
