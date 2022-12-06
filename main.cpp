@@ -10,7 +10,7 @@
 #include <string>
 #include "helper.h"
 #include "mergeSort.h"
-#include "radixSort.h"
+#include "RadixSort.h"
 
 using namespace std;
 
