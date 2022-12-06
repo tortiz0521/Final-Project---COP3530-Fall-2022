@@ -73,6 +73,34 @@ vector<pair<string, int>> createListInt(vector<pair<string, int>>& list, string 
 	return list;
 
 }
+void intSelect (int range, vector<pair<string, int>> list, map<string, CSVData>& library, string type){
+			list = createListInt(list, type, library);
+			int size = list.size();
+			auto start1 = chrono::high_resolution_clock::now(); // Count to start the time on here
+			mergeSort_int(list, 0, size - 1);
+			auto end1 = chrono::high_resolution_clock::now(); // stop the time on here
+			auto time1 = chrono::duration_cast<chrono::microseconds>(end1 - start1).count(); // Caculate the time 
+			cout << endl << "Descending Order: " << endl;
+			for (int i = size - 1; i >= size - range; i--) {
+				cout << list[i].first << ' ' << list[i].second << endl;
+			}
+			cout << endl;
+			cout << "Time taken by Merge Sort: " << time1 << " microseconds." << endl; // print the time to execute
+}
+void dblSelect (int range, vector<pair<string, double>> list, map<string, CSVData>& library, string type){
+			list = createListDouble(list,type, library);
+			int size = list.size();
+			auto start1 = chrono::high_resolution_clock::now(); // Count to start the time on here
+			mergeSort_double(list, 0, size - 1);
+			auto end1 = chrono::high_resolution_clock::now(); // stop the time on here
+			auto time1 = chrono::duration_cast<chrono::microseconds>(end1 - start1).count(); // Caculate the time 
+			cout << endl << "Descending Order: " << endl;
+			for (int i = size - 1; i >= size - range; i--) {
+				cout << list[i].first << ' ' << list[i].second << endl;
+			}
+			cout << endl;
+			cout << "Time taken by Merge Sort: " << time1 << " microseconds." << endl; // print the time to execute
+}
 int main()
 {
 	map<string, CSVData> library;
@@ -80,99 +108,61 @@ int main()
 	GetDataFromCSV("FinalCleanedLibrary.csv", library);
 	int selection = 0;
 	int range;
+	string book;
 
-	int sizeRating;
-	int sizePrice;
-	int sizePage;
-	int sizePercent;
-
-	while (selection != 5) {
+	while (true) {
 
 		cout << "How would you like to find your book?" << endl;
 		cout << "1. Sort by page number" << endl;
 		cout << "2. Sort by rating" << endl;
 		cout << "3. Sort by price" << endl;
 		cout << "4. Sort by liked percentage" << endl;
-		cout << "5. Exit Library" << endl;
+		cout << "5. Find full book information" << endl;
+		cout << "6. Exit Library" << endl;
 		cin >> selection;
+
 		if (selection == 1) {
 			cout << "How many results would you like to see?" << endl;
 			cin >> range;
 			vector<pair<string, int>> listPages;
-			listPages = createListInt(listPages, "pages", library);
-			sizePage = listPages.size();
-			auto start1 = chrono::high_resolution_clock::now(); // Count to start the time on here
-			mergeSort_int(listPages, 0, sizePage - 1);
-			auto end1 = chrono::high_resolution_clock::now(); // stop the time on here
-			auto time1 = chrono::duration_cast<chrono::microseconds>(end1 - start1).count(); // Caculate the time 
-			cout << endl << "Descending Order: " << endl;
-			for (int i = sizePage - 1; i >= sizePage - range; i--) {
-				cout << listPages[i].first << ' ' << listPages[i].second << endl;
-			}
-			cout << endl;
-			cout << "Time taken by Merge Sort: " << time1 << " microseconds." << endl; // print the time to execute
-			cout << endl;
+			intSelect(range,listPages,library, "pages");
 		}
 		else if (selection == 2) {
 			cout << "How many results would you like to see?" << endl;
 			cin >> range;
-			vector<pair<string, double>> listRating;
-			listRating = createListDouble(listRating, "rating", library);
-			sizeRating = listRating.size();
-			auto start1 = chrono::high_resolution_clock::now(); // Count to start the time on here
-			mergeSort_double(listRating, 0, sizeRating - 1);
-			auto end1 = chrono::high_resolution_clock::now(); // stop the time on here
-			auto time1 = chrono::duration_cast<chrono::microseconds>(end1 - start1).count(); // Caculate the time 
-			cout << endl << "Descending Order: " << endl;
-			for (int i = sizeRating - 1; i >= sizeRating - range; i--) {
-				cout << listRating[i].first << ' ' << fixed << showpoint << setprecision(2) << listRating[i].second << endl;
-			}
-			cout << endl;
-			cout << "Time taken by Merge Sort: " << time1 << " microseconds." << endl; // print the time to execute
-			cout << endl;
+			vector<pair<string, double>> listRating;	
+			dblSelect(range,listRating,library, "rating");
 		}
-		else if (selection == 3) {
+		else if (selection == 3) {	
 			cout << "How many results would you like to see?" << endl;
-			cin >> range;
+			cin >> range;	
 			vector<pair<string, double>> listPrice;
-			listPrice = createListDouble(listPrice, "price", library);
-			sizePrice = listPrice.size();
-			auto start1 = chrono::high_resolution_clock::now(); // Count to start the time on here
-			mergeSort_double(listPrice, 0, sizePrice - 1);
-			auto end1 = chrono::high_resolution_clock::now(); // stop the time on here
-			auto time1 = chrono::duration_cast<chrono::microseconds>(end1 - start1).count(); // Caculate the time 
-			cout << endl << "Descending Order: " << endl;
-			for (int i = sizePrice - 1; i >= sizePrice - range; i--) {
-				cout << listPrice[i].first << ' ' << fixed << showpoint << setprecision(2) << listPrice[i].second << endl;
-			}
-			cout << endl;
-			cout << "Time taken by Merge Sort: " << time1 << " microseconds." << endl; // print the time to execute
-			cout << endl;
+			dblSelect(range,listPrice,library, "price");
 		}
 		else if (selection == 4) {
 			cout << "How many results would you like to see?" << endl;
 			cin >> range;
 			vector<pair<string, int>> listlikedPercent;
-			listlikedPercent = createListInt(listlikedPercent, "likedPercent", library);
-			sizePercent = listlikedPercent.size();
-			auto start1 = chrono::high_resolution_clock::now(); // Count to start the time on here
-			mergeSort_int(listlikedPercent, 0, sizePercent - 1);
-			auto end1 = chrono::high_resolution_clock::now(); // stop the time on here
-			auto time1 = chrono::duration_cast<chrono::microseconds>(end1 - start1).count(); // Caculate the time 
-			cout << endl << "Descending Order: " << endl;
-			for (int i = sizePercent - 1; i >= sizePercent - range; i--) {
-				cout << listlikedPercent[i].first << ' ' << listlikedPercent[i].second << endl;
-			}
-			cout << endl;
-			cout << "Time taken by Merge Sort: " << time1 << " microseconds." << endl; // print the time to execute
-			cout << endl;
+			intSelect(range,listlikedPercent,library,"likedPercent");
 		}
-		else if (selection == 5) {
+		else if (selection == 5){
+			cout<< "What is the name of the book you are searching for?"<<endl;
+			cin >> book;
+			if (library[book].rating == 0){
+			cout<< "This is not a valid book in our Library, please start over." <<endl;
+			continue;
+			}
+			cout << "Author: "<<library[book].author<< ", Rating: " << library[book].rating << ", Number of Pages: "<<
+			library[book].pages<<", Number of Ratings: "<<library[book].numRatings<< ", \nPercentage Liked: "<<
+			library[book].likedPercent<< ", Price of Book: "<< library[book].price<< ", \nBest Books Ever Score: "<<
+			library[book].bbeScore <<", Best Books Ever Votes: "<<library[book].bbeVotes <<endl;
+		}
+		else if (selection == 6) {
 			break;
 		}
 		else
 			cout << "Please make a valid selection" << endl;
-			break;
+			cout <<endl;
 
 	}
 	cout << "Thank you for stopping by, I hope you enjoyed our slection and found a good book!";
