@@ -78,4 +78,15 @@ void radixSort(vector<pair<string, double>>& data)
 	data = redecimal(de);
 }
 
+void radixSort(vector<pair<string, int>>& data)
+{
+	vector<pair<string, int>> de;
+	int max = findMax(de);
+
+	for (int d = 1; max / d > 0; d *= 10) {
+		countingSort(de, d);
+	}
+
+}
+
 #endif
